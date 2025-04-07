@@ -39,8 +39,16 @@ def fictitious_play(A, B, iterations):
         # Best response to opponent's empirical strategy
         expected_payoff1 = A @ player2_strategy
         expected_payoff2 = B.T @ player1_strategy
-        i = np.argmax(expected_payoff1)  # Best response of Player 1
-        j = np.argmax(expected_payoff2)  # Best response of Player 2
+
+        # Uncomment for making a tie-braker rule preferring lower index
+        # i = np.argmax(expected_payoff1)  # Best response of Player 1
+        # j = np.argmax(expected_payoff2)  # Best response of Player 2
+
+        # following code tie-brakes randomly
+        best_responses1 = np.flatnonzero(expected_payoff1 == expected_payoff1.max())
+        i = np.random.choice(best_responses1)
+        best_responses2 = np.flatnonzero(expected_payoff2 == expected_payoff2.max())
+        j = np.random.choice(best_responses2)
 
     return np.array(player1_history), np.array(player2_history)
 
